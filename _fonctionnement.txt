@@ -1,0 +1,86 @@
+Fonctionnement du Programme
+
+
+----------------------------------------------------------------------------------------------------
+
+
+1ERE PARTIE DE CLIENT.PY, CHIFFREMENT DES FICHIERS :
+
+Initialisation et Configuration:
+Le programme définit un répertoire cible pour le chiffrement et plusieurs constantes, comme les extensions de fichiers pour les fichiers chiffrés et d'informations. Il configure également l'adresse du serveur local pour la communication.
+
+Connexion au Serveur:
+Lors de son exécution, le programme établit une connexion à un serveur via un socket TCP. Il envoie une requête pour obtenir une clé publique RSA, nécessaire pour le chiffrement.
+
+Réception des Informations:
+Une fois connecté, il attend une réponse du serveur. Cette réponse contient la clé publique, un identifiant unique pour la victime, et la date. Le programme extrait ces informations pour les utiliser ultérieurement lors du chiffrement.
+
+Vérification d'Exclusion:
+Avant de procéder au chiffrement, le programme vérifie chaque fichier dans le répertoire cible pour s’assurer qu'il ne soit pas dans les chemins exclus (comme des répertoires système ou des fichiers déjà chiffrés). Cela évite de chiffrer des fichiers critiques ou des fichiers déjà affectés.
+
+Chiffrement des Fichiers:
+Pour chaque fichier valide, le programme génère une clé AES aléatoire (AES-256) et un vecteur d'initialisation (IV). Il lit ensuite le contenu du fichier, le chiffre avec AES en mode CBC, et applique un remplissage pour garantir que la taille des données soit un multiple de la taille de bloc.
+La clé AES, essentielle pour déchiffrer les données, est ensuite chiffrée avec la clé publique RSA reçue précédemment. Cela garantit que seule la partie disposant de la clé privée RSA peut déchiffrer les fichiers.
+
+Sauvegarde des Données Chiffrées:
+Le fichier d'origine est renommé avec une nouvelle extension pour indiquer qu'il est chiffré. Le programme écrit ensuite la clé AES chiffrée, l'IV et les données chiffrées dans le nouveau fichier.
+
+Création de Fichiers d'Information:
+Après le chiffrement des fichiers, le programme crée un fichier d'information dans le même répertoire, qui contient l'identifiant de la victime et la date du chiffrement. Cela servira plus tard au programme de déchiffrement (2ème partie de client.py) pour demander au serveur une vérification de payment et la clé privée pour déchiffrer les fichiers, etc.
+
+Vérification de Chiffrement Antérieur:
+Avant de commencer le processus de chiffrement, le programme vérifie si des fichiers chiffrés existent déjà dans le répertoire cible. Cela permet d'éviter de réexécuter le chiffrement sur un système déjà compromis.
+
+
+----------------------------------------------------------------------------------------------------
+
+
+2EME PARTIE DE CLIENT.PY, FENETRE POUR LA VICTIME ET DECHIFFREMENT DES FICHIERS :
+
+Initialisation des Paramètres:
+Le programme commence par définir des paramètres clés, notamment l'adresse Bitcoin pour le paiement de rançon, le montant demandé, des délais de paiement, des options de langue disponibles et le texte de la fenêtre traduit dans toutes ces langues.
+
+Gestion des Informations:
+Le programme cherche des fichiers d'information qui contiennent un identifiant de victime et la date d'encryption. Ces informations sont essentielles pour vérifier le paiement, effectuer le décryptage et afficher le temps restant dans la fenêtre si le serveur est hors ligne.
+
+Vérification de Paiement:
+L'utilisateur peut entrer une adresse de paiement (avec le bouton "Check Payment") pour vérifier si le paiement de rançon a été effectué. Le programme envoie cette adresse au serveur, qui va vérifier si l'adresse a bien payé la rançon et dans les temps. Si oui, le serveur va envoyer la clé privée associée à l'ID de la victime (envoyé au serveur, trouvable dans les fichiers d'infos. créés dans la partie CHIFFREMENT du programme).
+
+Décryptage des Fichiers:
+Une fois la clé privée obtenue, le programme parcourt un répertoire contenant des fichiers chiffrés. Pour chaque fichier, il lit la clé AES chiffrée, l'IV (vecteur d'initialisation) et les données chiffrées.
+La clé AES est déchiffrée à l'aide de la clé privée, puis les données sont déchiffrées à l'aide de cette clé AES. Les fichiers déchiffrés sont ensuite enregistrés avec leur nom d'origine, et l'extension de fichier chiffré est retirée.
+
+Détails de l'interface Utilisateur:
+Toutes les interactions utilisateur sont gérées avec une fenêtre graphique. Elle affiche des messages d'état, l'explication du virus, un compte à rebours montrant le temps restant avant la date limite du paiement, un bouton "Check Payment" pour que l'utilisateur puisse déchiffrer ses fichiers après le payment de la rançon et des boutons "d'aide" pour aider la victime à comprendre le fonctionnement des bitcoins etc. Le programme met à jour toutes les secondes un compte à rebours affiché dans l'interface, indiquant le temps restant pour effectuer le paiement.
+
+Traduction en 32 Langues:
+L'interface prend en charge plusieurs langues, permettant à l'utilisateur de sélectionner sa langue préférée. Tous les éléments textuels de l'interface sont mis à jour en fonction de la langue sélectionnée.
+
+
+----------------------------------------------------------------------------------------------------
+
+
+FICHIER SERVER.PY, SERVEUR DU RANSOMWARE
+
+Initialisation:
+Le serveur écoute sur une adresse IP et un port spécifiés. Il est configuré pour accepter jusqu'à 10 connexions simultanées.
+
+Gestion des Connexions:
+Lorsqu'un client se connecte, le serveur attend de recevoir un message. Une fois le message reçu, il l'analyse et exécute les actions appropriées.
+
+Création de Nouveaux Identifiants:
+Si le message commence par /to-server/ new, le serveur génère une nouvelle paire de clés RSA (publique et privée) et un identifiant unique pour le client. Il enregistre ces informations dans un fichier JSON (victims.json) et envoie la clé publique et l'identifiant au client, ainsi qu'une date d'expiration pour le paiement.
+
+Vérification du Paiement:
+Le serveur peut recevoir une requête de vérification de paiement via un message commençant par /to-server/ check. Il extrait l'adresse de paiement et l'identifiant du client.
+Le serveur vérifie si l'adresse a été enregistrée comme ayant effectué le paiement dans un fichier. Si c'est le cas et que l'adresse n'a pas encore été utilisée pour un décryptage, il récupère la clé privée associée à cet identifiant.
+Le serveur vérifie également si la date d'expiration n'est pas dépassée avant d'envoyer la clé privée au client.
+
+Demande de Date d'Expiration:
+Si le message commence par /to-server/ askdate, le serveur extrait l'identifiant et renvoie la date d'expiration du paiement au client.
+
+Gestion des Fichiers:
+Les informations sur les victimes, y compris les clés publiques et privées, sont stockées et mises à jour dans un fichier JSON. Les adresses des paiements validés et déjà utilisées sont également gérées dans leurs propres fichiers.
+
+Fermeture de la Connexion:
+Après avoir traité la requête, le serveur ferme la connexion avec le client.

