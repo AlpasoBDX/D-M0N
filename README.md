@@ -6,7 +6,7 @@
 
 **Feel free to download the files and change the code to add more options, improve compatibility... Pull requests are accepted.**
 
-![image](https://ibb.co/7Q66d4G)
+![alt text](https://github.com/AlpasoBDX/D-M0N/screen1.png)
 
 ## How to use
 To use this ransomware, you must have:
