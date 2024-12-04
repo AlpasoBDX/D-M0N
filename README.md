@@ -20,7 +20,7 @@ Please follow these steps to make it runnable and install it on a PC:
   ```python
   SERVER_ADDRESS = ('228.35.112.75', 5555)
   ```
-- ```server.py```: changing the SERVER_ADDRESS constant second value (port) to the same port you used on ```client.py```, example:
+- ```server.py```: changing the SERVER_ADDRESS constant second value (port) to the same port you used on the client file, example:
   ```python
   SERVER_ADDRESS = ("0.0.0.0", 33800)
   ```
