@@ -6,9 +6,11 @@
 
 **Feel free to download the files and change the code to add more options, improve compatibility... Pull requests are accepted.**
 
-![alt text](https://github.com/AlpasoBDX/D-M0N/screen1.png)
+![Screenshot #1](screen1.png)
+
 
 ## How to use
+
 To use this ransomware, you must have:
   - a socket server running on any machine using ```server.py```
   - the malware on the 'victim's' PC which is the file ```client.py``` (or a **.exe** version so it can be ran without Python installed)
