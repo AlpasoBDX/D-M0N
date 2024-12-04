@@ -1,6 +1,7 @@
 # D-M0N RANSOMWARE - EXPERIMENTAL PYTHON RANSOMWARE
 
-**D-M0N is a testing ransomware written in Python, for educational purposes only. Make sure you ONLY use it for vulnerabily testing or other ethical uses.**
+**D-M0N is a 100% working/
+functional ransomware written in Python, for educational purposes only. Make sure you ONLY use it for vulnerabily testing, educational purposes or other ethical uses.**
 **It has a graphical interface window on the 'victim's' side that the 'victim' can use to read the paying instructions (TRANSLATED IN 30+ LANGUAGES), pay the ransom, check the payment and more.**
 **Encrypt files and change their extension to .___encrypted___**
 
