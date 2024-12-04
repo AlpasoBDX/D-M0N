@@ -18,7 +18,7 @@ To use this ransomware, you must have:
 
 The current ransomware file is safe in case of an unintentional launching on your computer. It will only encrypt a test directory that I use to test the malware on my PC.
 
-Please follow these steps to make it runnable and install it on a PC:
+Please follow these steps to make it runnable on a PC:
 
 **1.** Change ```server.py``` and ```client.py``` files so the program can run correctly and get all the files encrypted:
   - ```client.py```: change the ENCRYPTION_DIR constant to any functionnal directory like 'C:' or os.getenv("SystemDrive") to get main harddisk directory, example:
