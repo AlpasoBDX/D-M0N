@@ -2,8 +2,11 @@
 
 **D-M0N is a testing ransomware written in Python, for educational purposes only. Make sure you ONLY use it for vulnerabily testing or other ethical uses.**
 **It has a graphical interface window on the 'victim's' side that the 'victim' can use to read the paying instructions (TRANSLATED IN 30+ LANGUAGES), pay the ransom, check the payment and more.**
+**Encrypt files and change their extension to .___encrypted___**
 
-## Make it work properly
+**Feel free to download the files and change the code to add more options, improve compatibility... Pull requests are accepted.**
+
+## How to use
 To use this ransomware, you must have:
   - a socket server running on any machine using ```server.py```
   - the malware on the 'victim's' PC which is the file ```client.py``` (or a **.exe** version so it can be ran without Python installed)
