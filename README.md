@@ -21,11 +21,12 @@ Please follow these steps to make it runnable and install it on a PC:
   ```python
   SERVER_ADDRESS = ('228.35.112.75', 5555)
   ```
+  **You can also use alternative port forwarding solutions like [portmap.io](https://portmap.io/) instead of typing your real public IP address.**
+  
 - ```server.py```: change the SERVER_ADDRESS constant second value (port) to the same port you used on the client file, example:
   ```python
   SERVER_ADDRESS = ("0.0.0.0", 33800)
   ```
-  **You can also use alternative port forwarding solutions like [portmap.io](https://portmap.io/) instead of typing your real public IP address.**
 
 **2.** Change other details like the BTC address (BTC_ADDRESS constant in ```client.py```), text of the client's window, ransom fees, graphical elements, ransom payout time in ```server.py``` (MAX_DAYS_TO_PAY constant) and even more, you can inspect the code to modify as much elements as you want.
   
